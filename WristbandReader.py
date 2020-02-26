@@ -7,7 +7,7 @@ def main():
     while(True):
         heartbeat = 75
         client = mqttclient.Client("WristbandReader")
-        client.connect("localhost")
+        client.connect("localhost",188)
         steps+=1
         heartbeat += random.randint(-15, 15)
         client.publish("home/puc/stepcounter", f"{steps}")
