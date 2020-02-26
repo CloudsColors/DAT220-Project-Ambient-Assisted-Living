@@ -1,11 +1,13 @@
+import os,sys
+
 def query_heartbeat():
-    f = open("heartbeat.txt", "r")
+    f = open(os.path.dirname(__file__)+"\heartbeat.txt", "r")
     data = f.read()
     f.close()
     return data
 
 def query_stepcounter():
-    f = open("stepcounter.txt", "r")
+    f = open(os.path.dirname(__file__)+"\stepcounter.txt", "r")
     data = f.read()
     f.close()
     return data
