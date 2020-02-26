@@ -1,5 +1,4 @@
 import paho.mqtt.client as mqttclient
-#import paho.mqtt.subscribe as mqttsub
 
 def on_connect(client, userdata, flags, rc):
     client.subscribe([("home/puc/heartbeat", 0),("home/puc/stepcounter", 1)])
@@ -11,8 +10,8 @@ def on_message(client, userdata, msg):
         writeToFile("stepcounter.txt", msg.payload.decode())
 
 def writeToFile(filename, payload):
-    f = open(filename, "a+")
-    f.write(payload+"\n")
+    f = open(filename, "w+")
+    f.write(payload)
     f.close()
 
 def main():
