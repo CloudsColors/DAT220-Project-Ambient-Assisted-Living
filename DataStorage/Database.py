@@ -1,14 +1,18 @@
 import paho.mqtt.client as mqttclient
+
 import os,sys
 
+'''
+Module for mimicing how the "database" stores the sensor information that is sent over MQTT.
+'''
 def on_connect(client, userdata, flags, rc):
     client.subscribe([("home/puc/heartbeat", 0),("home/puc/stepcounter", 1)])
 
 def on_message(client, userdata, msg):
     if(msg.topic == "home/puc/heartbeat"):
-        writeToFile(os.path.dirname(__file__)+"\heartbeat.txt", msg.payload.decode())
+        writeToFile(os.path.dirname(__file__)+"/data/heartbeat.txt", msg.payload.decode())
     elif(msg.topic == "home/puc/stepcounter"):
-        writeToFile(os.path.dirname(__file__)+"\stepcounter.txt", msg.payload.decode())
+        writeToFile(os.path.dirname(__file__)+"/data/stepcounter.txt", msg.payload.decode())
 
 def writeToFile(filename, payload):
     f = open(filename, "w+")

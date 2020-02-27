@@ -1,18 +1,24 @@
 import paho.mqtt.client as mqttclient
-import paho.mqtt.publish as mqttpub
+
 import time, random
 
-def main():
+'''
+This module mimics the sensor for a fitbit in a very barebones manner and publishes the data to another module with MQTT
+'''
+def start_sensor_fitbit():
     steps = 0
     while(True):
-        heartbeat = 75
+        # General data variation
+        heartbeat = 70
+        steps += random.randint(0,1)
+        heartbeat += random.randint(-1, 1)
+        # Networking with MQTT (publish)
         client = mqttclient.Client("WristbandReader")
-        client.connect("localhost",188)
-        steps+=1
-        heartbeat += random.randint(-15, 15)
+        client.connect("localhost")
         client.publish("home/puc/stepcounter", f"{steps}")
         client.publish("home/puc/heartbeat", f"{heartbeat}")
-        time.sleep(2)
+        # Sleep one second for data-sanity
+        time.sleep(1)
 
 if __name__ == "__main__":
-    main()
+    start_sensor_fitbit()
