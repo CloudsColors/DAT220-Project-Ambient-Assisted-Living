@@ -9,9 +9,9 @@ def start_sensor_fitbit():
     steps = 0
     while(True):
         # General data variation
-        heartbeat = 75
-        steps+=1
-        heartbeat += random.randint(-15, 15)
+        heartbeat = 70
+        steps += random.randint(0,1)
+        heartbeat += random.randint(-1, 1)
         # Networking with MQTT (publish)
         client = mqttclient.Client("WristbandReader")
         client.connect("localhost")

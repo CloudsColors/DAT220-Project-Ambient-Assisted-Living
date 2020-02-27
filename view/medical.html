@@ -9,7 +9,7 @@
     <body>
         <div class="container">
             <div class="jumbotron" style="background-color: #05389A;">
-                <h3> Medical </h3>
+                <h3 style="color: white"> Medical </h3>
             </div>
             <div class="row">
                 <div class="col-sm-2">
@@ -19,8 +19,8 @@
                     <a href="">Security</a>
                 </div>
                 <div class="col-sm-10">
-                  <p id="heartbeat">Heartbeat: {{hb}}</p>
-                  <p id="heartbeat">Stepcounter: {{sc}}</p>
+                  Heartbeat per second: <span id="heartbeat"></span> <br>
+                  Current step-counter: <span id="stepcounter"></span>
                   <table class="table">
                       <thead class="thead-light">
                         <tr>
@@ -64,14 +64,19 @@
 </html>
 
 <script>
-  $.ajax({
-    type:"POST",
-    dataType: "json",
-    data:'data',
-    url: "localhost:5000/medical",
-    success: function(data){
-      console.log(data);
-      $("heartbeat").html(data.heartbeat);
-    }
-  })
+  var interval = setInterval(function(){
+    $.ajax({      
+      type:"POST",
+      dataType: "json",
+      data:'data',
+      url: "http://127.0.0.1:5000/medical",
+      success: function(data){
+        console.log(data.heartbeat+":"+data.stepcounter);
+        $("#heartbeat").text(data.heartbeat);
+        $("#stepcounter").text(data.stepcounter);
+      }, error: function(request, error){
+        console.log(request+" something went wrong");
+      }
+    });
+  }, 1000);
 </script>
