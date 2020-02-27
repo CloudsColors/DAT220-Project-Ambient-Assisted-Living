@@ -2,6 +2,9 @@
     <head>
         <title> Ambient assisted living </title> 
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     </head>
     <body>
         <div class="container">
@@ -16,46 +19,59 @@
                     <a href="">Security</a>
                 </div>
                 <div class="col-sm-10">
-                  <p>Heartbeat: {{hb}}</p>
-                  <p>Stepcounter: {{sc}}</p>
-  
-                    <table class="table">
-                        <thead class="thead-light">
-                          <tr>
-                            <th>Date and Time</th>
-                            <th>Glucose Mesurment</th>
-                            <th>Date</th>
-                            <th>Blood Pressure</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td>10:00 - 18/02/2020</td>
-                            <td>34</td>
-                            <td>18/02/2020</td>
-                            <td>110</td>
-                          </tr>
-                          <tr>
-                            <td>18:00 - 18/02/2020</td>
-                            <td>32</td>
-                            <td>-</td>
-                            <td>-</td>
-                          </tr>
-                          <tr>
-                            <td>10:00 - 20/02/2020</td>
-                            <td>34</td>
-                            <td>-</td>
-                            <td>-</td>
-                          </tr>
-                          <tr>
-                            <td>18:00 - 20/02/2020</td>
-                            <td>30</td>
-                            <td>-</td>
-                            <td>-</td>
-                          </tr>
-                        </tbody>
-                      </table>
+                  <p id="heartbeat">Heartbeat: {{hb}}</p>
+                  <p id="heartbeat">Stepcounter: {{sc}}</p>
+                  <table class="table">
+                      <thead class="thead-light">
+                        <tr>
+                          <th>Date and Time</th>
+                          <th>Glucose Mesurment</th>
+                          <th>Date</th>
+                          <th>Blood Pressure</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>10:00 - 18/02/2020</td>
+                          <td>34</td>
+                          <td>18/02/2020</td>
+                          <td>110</td>
+                        </tr>
+                        <tr>
+                          <td>18:00 - 18/02/2020</td>
+                          <td>32</td>
+                          <td>-</td>
+                          <td>-</td>
+                        </tr>
+                        <tr>
+                          <td>10:00 - 20/02/2020</td>
+                          <td>34</td>
+                          <td>-</td>
+                          <td>-</td>
+                        </tr>
+                        <tr>
+                          <td>18:00 - 20/02/2020</td>
+                          <td>30</td>
+                          <td>-</td>
+                          <td>-</td>
+                        </tr>
+                      </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </body>
+</html>
+
+<script>
+  $.ajax({
+    type:"POST",
+    dataType: "json",
+    data:'data',
+    url: "localhost:5000/medical",
+    success: function(data){
+      console.log(data);
+      $("heartbeat").html(data.heartbeat);
+    }
+  })
+</script>
