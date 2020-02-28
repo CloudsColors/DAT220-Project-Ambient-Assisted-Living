@@ -7,70 +7,71 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     </head>
     <body>
-        <div class="container">
-            <div class="jumbotron" style="background-color: #05389A;">
-                <h3 style="color: white"> Medical </h3>
-            </div>
+      <div class="container">
+        <div class="jumbotron" style="background-color: #05389A;">
+            <h3 style="color: white"> Medical </h3>
+        </div>
+        <div class="row">
+          <div class="col-sm-2">
+              <a href="/">Dashboard</a> <br>
+              <a href="/medical">Medical</a> <br>
+              <a href="">Social</a> <br>
+              <a href="">Security</a>
+          </div>
+          <div class="col-sm-10">
+            Heartbeat per second: <span id="heartbeat"></span> <br>
+            Current step-counter: <span id="stepcounter"></span> <br>
             <div class="row">
-                <div class="col-sm-2">
-                    <a href="/">Dashboard</a> <br>
-                    <a href="/medical">Medical</a> <br>
-                    <a href="">Social</a> <br>
-                    <a href="">Security</a>
-                </div>
-                <div class="col-sm-10">
-                   Heartbeat per second: <span id="heartbeat"></span> <br>
-                   Current step-counter: <span id="stepcounter"></span>
-                  <table class="table">
-                      <thead class="thead-light">
-                        <tr>
-                          <th>Date and Time</th>
-                          <th>Glucose Mesurment</th>
-                          <th>Date</th>
-                          <th>Blood Pressure</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>10:00 - 18/02/2020</td>
-                          <td>34</td>
-                          <td>18/02/2020</td>
-                          <td>110</td>
-                        </tr>
-                        <tr>
-                          <td>18:00 - 18/02/2020</td>
-                          <td>32</td>
-                          <td>-</td>
-                          <td>-</td>
-                        </tr>
-                        <tr>
-                          <td>10:00 - 20/02/2020</td>
-                          <td>34</td>
-                          <td>-</td>
-                          <td>-</td>
-                        </tr>
-                        <tr>
-                          <td>18:00 - 20/02/2020</td>
-                          <td>30</td>
-                          <td>-</td>
-                          <td>-</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                    <form method="POST" action="http://127.0.0.1:5000/medical/submit">
-                      <div class="form-group">
-                        <label for="glucoseInput">Glucose</label>
-                        <input type="text" class="form-control" name="glucoseInput" placeholder="Enter Glucose">
-    
-                      </div>
-                      <div class="form-group">
-                        <label for="bloodInput">Bloodpressure</label>
-                        <input type="text" class="form-control" name="bloodInput" placeholder="Enter Bloodpressure">
-                      </div>
-                      <button type="submit" class="btn btn-primary">Submit</button>
-                    </form>
-                </div>
+              <div class="col-sm-6" style="float:left;">
+                <table class="table">
+                  <thead class="thead-light">
+                    <tr>
+                      <th>Date and Time</th>
+                      <th>Blood pressure measurement</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for x in bp %}
+                    <tr>
+                      <td>{{x[1]}}</td>
+                      <td>{{x[0]}}</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+              <div class="col-sm-6" style="float:right;">
+                <table class="table">
+                  <thead class="thead-light">
+                    <tr>
+                      <th>Date and Time</th>
+                      <th>Glucose measurement</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for x in gc%}
+                      <tr>
+                        <td>{{x[1]}}</td>
+                        <td>{{x[0]}}</td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>       
             </div>
+            
+            <form method="POST" action="http://127.0.0.1:5000/medical/submit">
+              <div class="form-group">
+                <label for="glucoseInput">Glucose</label>
+                <input type="text" class="form-control" name="glucoseInput" placeholder="Enter Glucose">
+              </div>
+              <div class="form-group">
+                <label for="bloodInput">Blood pressure</label>
+                <input type="text" class="form-control" name="bloodInput" placeholder="Enter Blood pressure">
+              </div>
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+          </div>
         </div>
     </body>
 </html>
