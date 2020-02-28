@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+    <head>
+        <title> Ambient assisted living </title> 
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    </head>
+    <body>
+      <div class="container">
+        <div class="jumbotron" style="background-color: #05389A;">
+            <h3 style="color: white"> Social </h3>
+        </div>
+        <div class="row">
+          <div class="col-sm-2">
+              <a href="/">Dashboard</a> <br>
+              <a href="/medical">Medical</a> <br>
+              <a href="">Social</a> <br>
+              <a href="">Security</a>
+          </div>
+          <div class="col-sm-10"> 
+            <form>
+                <h2>Upload a photo:</h2> 
+                <input type="file" id="myFile" name="filename">
+                <button class="btn btn-primary">Submit</button>
+                <br>
+                <button class="btn btn-success">Start photocarousel</button>
+            </form>
+            
+            <hr>
+            <br>
+            <h2>Photo Gallery</h2>
+            <div class="row">
+                <div class="col-sm-3">
+                  <img onclick="enhance(this);" src="https://ifindhub.com/wp-content/uploads/2018/07/Where-To-Download-Royalty-Free-Images-Without-Copyright-free-stock-images-1280x720.jpg" style="width:100%">
+                </div>
+                <div class="col-sm-3">
+                    <img onclick="enhance(this);" src="https://cdn.wallpapersafari.com/23/80/ZNy1bj.jpg" style="width:100%">
+                  </div>
+                  <div class="col-sm-3">
+                    <img onclick="enhance(this);" src="https://www.pixelstalk.net/wp-content/uploads/2016/08/1080p-Nature-Wallpaper-Free-Download.jpg" style="width:100%">
+                  </div>
+                  <div class="col-sm-3">
+                    <img onclick="enhance(this);" src="https://i.pinimg.com/originals/35/c6/39/35c639ac6db8057053a7af3f6be0498f.jpg" style="width:100%">
+                  </div>
+            </div>
+            <div class="container" style="padding:10px">
+                <span onclick="this.parentElement.style.display='none'" class="closebtn">&times;</span>
+                <img id="expandedImg" style="width:100%">
+            </div>
+        </div>
+        
+        </div>
+    </body>
+</html>
+
+<script>
+    function enhance(imgs) {
+      var expandImg = document.getElementById("expandedImg");
+      expandImg.src = imgs.src;
+      expandImg.parentElement.style.display = "block";
+    }
+    </script>
