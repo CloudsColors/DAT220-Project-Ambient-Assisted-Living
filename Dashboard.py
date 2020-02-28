@@ -31,12 +31,13 @@ def submitForm():
             pi.blood_data(request.form["bloodInput"])    
     return redirect("http://127.0.0.1:5000/medical", code=301)
 
+@app.route('/security', methods=["GET", "POST"])
+def security():
+    return render_template("security.html")
+
     
 
-        
-        
-
-
+    
 
 
 if __name__ == "__main__":
