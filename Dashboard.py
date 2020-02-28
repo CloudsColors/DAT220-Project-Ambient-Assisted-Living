@@ -31,10 +31,9 @@ def submitForm():
             pi.blood_data(request.form["bloodInput"])    
     return redirect("http://127.0.0.1:5000/medical", code=301)
 
-    
-
-        
-        
+@app.route('/social', methods=["GET"])
+def social():
+    return render_template("social.html")
 
 
 
