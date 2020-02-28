@@ -19,8 +19,8 @@
                     <a href="">Security</a>
                 </div>
                 <div class="col-sm-10">
-                  Heartbeat per second: <span id="heartbeat"></span> <br>
-                  Current step-counter: <span id="stepcounter"></span>
+                   Heartbeat per second: <span id="heartbeat"></span> <br>
+                   Current step-counter: <span id="stepcounter"></span>
                   <table class="table">
                       <thead class="thead-light">
                         <tr>
@@ -57,6 +57,18 @@
                         </tr>
                       </tbody>
                     </table>
+                    <form method="POST" action="http://127.0.0.1:5000/medical/submit">
+                      <div class="form-group">
+                        <label for="glucoseInput">Glucose</label>
+                        <input type="text" class="form-control" name="glucoseInput" placeholder="Enter Glucose">
+    
+                      </div>
+                      <div class="form-group">
+                        <label for="bloodInput">Bloodpressure</label>
+                        <input type="text" class="form-control" name="bloodInput" placeholder="Enter Bloodpressure">
+                      </div>
+                      <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
                 </div>
             </div>
         </div>

@@ -15,6 +15,17 @@ def query_stepcounter():
     f.close()
     return data
 
+def insert_glucose(gluc):
+    f = open(os.path.dirname(__file__)+"/data/glucose.txt", "a+")
+    f.write(gluc + "\n")
+    f.close()
+    
+
+def insert_bloodpressure(blo):
+    f = open(os.path.dirname(__file__)+"/data/bloodpressure.txt", "a+")
+    f.write(blo + "\n")
+    f.close()
+    
 '''
 Below functions for testing
 '''
