@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+
+<head>
+    <title> Ambient assisted living </title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+</head>
+<style>
+    img.photo {
+        width:100%;
+    }
+</style>
+
+<body>
+    <div class="container">
+        <div class="jumbotron" style="background-color: #05389A;">
+            <h3 style="color: white"> Social </h3>
+        </div>
+        <div class="row">
+            <div class="col-sm-2">
+                <a href="/">Dashboard</a> <br>
+                <a href="/medical">Medical</a> <br>
+                <a href="/social">Social</a> <br>
+                <a href="">Security</a>
+            </div>
+            <div class="col-sm-10">
+                <form>
+                    <h2>Upload a photo:</h2>
+                    <input type="file" id="myFile" name="filename">
+                </form>
+                <button onclick="addImage();" class="btn btn-primary">Submit</button>
+                <button id="carousell-btn" onclick="carousell();" class="btn btn-success">Start photo carousell</button>
+                <hr>
+                <br>
+                <h2>Photo Gallery</h2>
+                <div class="row" id="gallery">
+                    <div class="col-sm-3" style="padding:5px">
+                        <img class="photo" id="img0" onclick="enhance(this);"
+                            src="https://ifindhub.com/wp-content/uploads/2018/07/Where-To-Download-Royalty-Free-Images-Without-Copyright-free-stock-images-1280x720.jpg">
+                    </div>
+                    <div class="col-sm-3" style="padding:5px">
+                        <img class="photo" id="img1" onclick="enhance(this);" src="https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072823_1280.jpg">
+                        
+                    </div>
+                    <div class="col-sm-3" style="padding:5px">
+                        <img class="photo" id="img2" onclick="enhance(this);"
+                            src="https://www.pixelstalk.net/wp-content/uploads/2016/08/1080p-Nature-Wallpaper-Free-Download.jpg">
+                    </div>
+                    <div class="col-sm-3" style="padding:5px">
+                        <img class="photo" id="img3" onclick="enhance(this);"
+                            src="https://wallpapercave.com/wp/XMnhQSq.jpg">
+                    </div>
+                </div>
+                <div id="expander" class="container" style="padding:15px">
+                    <span id="closeThing" onclick="this.parentElement.style.display='none'" class="closebtn">&times;</span>
+                    <img id="expandedImg" style="width:100%">
+                </div>
+            </div>
+
+        </div>
+</body>
+
+</html>
+
+<script>
+
+    var addImageIndex = 0;
+    var myImages = new Array();
+    myImages[0] = "https://cdn.pixabay.com/photo/2020/02/12/16/13/landscape-4843193_1280.jpg";
+    myImages[1] = "https://cdn.pixabay.com/photo/2020/02/20/12/12/cat-4864605_1280.jpg";
+    myImages[2] = "https://cdn.pixabay.com/photo/2020/02/25/18/15/sunset-4879665_1280.jpg";
+    myImages[3] = "https://cdn.pixabay.com/photo/2020/02/26/17/11/children-4882350_1280.jpg";
+
+
+    //https://cdn.wallpapersafari.com/23/80/ZNy1bj.jpg
+    function enhance(imgs) {
+        var expandImg = document.getElementById("expandedImg");
+        expandImg.src = imgs.src;
+        expandImg.parentElement.style.display = "block";
+    }
+
+    function carousell() {
+        var button = document.getElementById("carousell-btn");
+        if (button.innerText == "Start photo carousell") {
+            button.className = "btn btn-danger";
+            button.innerText = "Stop photo carousell";
+            startCarousell();
+        } else {
+            button.className = "btn btn-success";
+            button.innerText = "Start photo carousell";
+
+            var expandImg = document.getElementById("expandedImg");
+            expandImg.style.display='none';
+        }
+    }
+
+    function addImage() {
+        if (addImageIndex < myImages.length) {
+            var gallery = document.getElementById("gallery");
+            var imageDiv = document.createElement('div');
+            imageDiv.className = "col-sm-3";
+            imageDiv.style = "padding:5px";
+            var img = document.createElement("img");
+            img.src = myImages[addImageIndex];
+            img.className = "photo";
+            img.onclick = (function () { enhance(img); })
+            imageDiv.appendChild(img);
+            gallery.appendChild(imageDiv);
+            addImageIndex += 1;
+        }
+    }
+
+    function startCarousell() {
+        var expandImg = document.getElementById("expandedImg");
+        var img = document.getElementById("img0");
+        expandImg.src = img.src;
+        expandImg.parentElement.style.display = "block";
+
+        var scrollingElement = (document.scrollingElement || document.body);
+        scrollingElement.scrollTop = scrollingElement.scrollHeight;
+
+        //window.alert(document.getElementsByClassName("photo").length);
+    }
+
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+</script>
