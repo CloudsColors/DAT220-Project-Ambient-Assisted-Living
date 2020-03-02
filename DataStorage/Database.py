@@ -1,12 +1,12 @@
 import paho.mqtt.client as mqttclient
 
-import os,sys
+import os
 
 '''
 Module for mimicing how the "database" stores the sensor information that is sent over MQTT.
 '''
 def on_connect(client, userdata, flags, rc):
-    client.subscribe([("home/puc/heartbeat", 0),("home/puc/stepcounter", 1)])
+    client.subscribe([("home/puc/heartbeat", 0),("home/puc/stepcounter", 0)])
 
 def on_message(client, userdata, msg):
     if(msg.topic == "home/puc/heartbeat"):

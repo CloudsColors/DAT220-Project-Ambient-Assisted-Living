@@ -7,14 +7,14 @@ This module mimics the sensor for a fitbit in a very barebones manner and publis
 '''
 def start_sensor_fitbit():
     steps = 0
+    client = mqttclient.Client("WristbandReader")
+    client.connect("localhost")
     while(True):
         # General data variation
         heartbeat = 70
         steps += random.randint(0,1)
         heartbeat += random.randint(-1, 1)
         # Networking with MQTT (publish)
-        client = mqttclient.Client("WristbandReader")
-        client.connect("localhost")
         client.publish("home/puc/stepcounter", f"{steps}")
         client.publish("home/puc/heartbeat", f"{heartbeat}")
         # Sleep one second for data-sanity
