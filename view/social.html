@@ -36,6 +36,7 @@
                     <h2>Upload a photo:</h2>
                     <input type="file" id="myFile" name="filename">
                 </form>
+                <br>
                 <button onclick="addImage();" class="btn btn-primary">Submit</button>
                 <button id="carousell-btn" onclick="carousell();" class="btn btn-success">Start photo carousell</button>
                 <hr>
@@ -60,7 +61,6 @@
                     </div>
                 </div>
                 <div id="expander" class="container" style="padding:15px">
-                    <span id="closeThing" onclick="this.parentElement.style.display='none'" class="closebtn">&times;</span>
                     <img id="expandedImg" style="width:100%">
                 </div>
             </div>
@@ -71,7 +71,8 @@
 </html>
 
 <script>
-
+    var carousellOn = false;
+    var expanded = false;
     var addImageIndex = 0;
     var myImages = new Array();
     myImages[0] = "https://cdn.pixabay.com/photo/2020/02/12/16/13/landscape-4843193_1280.jpg";
@@ -79,12 +80,22 @@
     myImages[2] = "https://cdn.pixabay.com/photo/2020/02/25/18/15/sunset-4879665_1280.jpg";
     myImages[3] = "https://cdn.pixabay.com/photo/2020/02/26/17/11/children-4882350_1280.jpg";
 
-
-    //https://cdn.wallpapersafari.com/23/80/ZNy1bj.jpg
     function enhance(imgs) {
+        console.log("expanded before: " + this.expanded);
         var expandImg = document.getElementById("expandedImg");
-        expandImg.src = imgs.src;
-        expandImg.parentElement.style.display = "block";
+        if (!expanded || (expandImg.src != imgs.src)){
+            expandImg.src = imgs.src;
+            expandImg.parentElement.style.display = "block";
+            expanded = true;
+            carousellOn = false;
+        } else {
+            var expandImg = document.getElementById("expandedImg");
+            expandImg.src = imgs.src;
+            expandImg.parentElement.style.display = "none";
+            expanded = false;
+            carousellOn = false;
+        }
+        console.log("expanded after: " + this.expanded);
     }
 
     function carousell() {
@@ -98,7 +109,8 @@
             button.innerText = "Start photo carousell";
 
             var expandImg = document.getElementById("expandedImg");
-            expandImg.style.display='none';
+            expandImg.parentElement.style.display='none';
+            carousellOn = false;
         }
     }
 
@@ -126,8 +138,33 @@
 
         var scrollingElement = (document.scrollingElement || document.body);
         scrollingElement.scrollTop = scrollingElement.scrollHeight;
+        console.log("Starting carousell..");
+        carousellOn = true;
+        loopCarousell(1, expandImg);
+    }
 
-        //window.alert(document.getElementsByClassName("photo").length);
+    function loopCarousell(index, imageContainer) {
+        if (carousellOn) {
+            console.log("loop" + index);
+            var images = document.getElementsByClassName("photo");
+            var imageCount = images.length;
+            console.log("image count: " + imageCount);
+            var source = null;
+            if (index < images.length) {
+                source = images[index].src;
+            } else if (index < imageCount) {
+                source = myImages[index];
+            } 
+            var newIndex = index+1;
+            if (newIndex >= imageCount) {
+                newIndex = 0;
+            }
+            if (source != null) {
+                sleep(1500).then(() => {
+                    imageContainer.src = source;
+                }).then(() => loopCarousell(newIndex, imageContainer));
+            }
+        }
     }
 
     function sleep(ms) {
