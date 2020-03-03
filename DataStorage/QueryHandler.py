@@ -1,48 +1,43 @@
 import os,sys
+
+import DataStorage.Database as db
+
 from datetime import datetime
 
 '''
 This module is to mimic very roughly some database functionality for the project.
 '''
-def query_heartbeat():
-    f = open(os.path.dirname(__file__)+"/data/heartbeat.txt", "r")
-    data = f.read()
-    f.close()
-    return data
 
-def query_stepcounter():
-    f = open(os.path.dirname(__file__)+"/data/stepcounter.txt", "r")
-    data = f.read()
-    f.close()
-    return data
+def insert_heartbeat(path, heartbeat):
+    db.writeToFile(path, "w+", heartbeat)
+
+def insert_steps(path, steps):
+    db.writeToFile(path, "w+", steps)
 
 def insert_glucose(gluc):
-    f = open(os.path.dirname(__file__)+"/data/glucose.txt", "a+")
-    f.write(gluc + "," + datetime.now().strftime("%Y-%m-%d %H:%M") + "\n")
-    f.close()
+    db.writeToFile(os.path.dirname(__file__)+"/data/glucose.txt", "a+", gluc + "," + datetime.now().strftime("%Y-%m-%d %H:%M") + "\n")
     
-
 def insert_bloodpressure(blo):
-    f = open(os.path.dirname(__file__)+"/data/bloodpressure.txt", "a+")
-    f.write(blo + "," + datetime.now().strftime("%Y-%m-%d") + "\n")
-    f.close()
+    db.writeToFile(os.path.dirname(__file__)+"/data/bloodpressure.txt", "a+", blo + "," + datetime.now().strftime("%Y-%m-%d") + "\n")
+
+def query_heartbeat():
+    return db.getFromFile(os.path.dirname(__file__)+"/data/heartbeat.txt")
+
+def query_stepcounter():
+    return db.getFromFile(os.path.dirname(__file__)+"/data/stepcounter.txt")
 
 def query_glucose():
-    f = open(os.path.dirname(__file__)+"/data/glucose.txt", "r")
-    data = f.read().split("\n")
+    data = db.getFromFile(os.path.dirname(__file__)+"/data/glucose.txt").split("\n")
     for i in range(len(data)):
         data[i] = data[i].split(",")
-    f.close()
     return data
 
 def query_bloodpressure():
-    f = open(os.path.dirname(__file__)+"/data/bloodpressure.txt", "r")
-    data = f.read().split("\n")
+    data = db.getFromFile(os.path.dirname(__file__)+"/data/bloodpressure.txt").split("\n")
     for i in range(len(data)):
         data[i] = data[i].split(",")
-    f.close()
     return data
-    
+
 '''
 Below functions for testing
 '''

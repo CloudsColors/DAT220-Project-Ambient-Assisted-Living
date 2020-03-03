@@ -4,6 +4,8 @@ import datetime
 
 import HealthMonitoring.OverviewSystem as oss
 import HealthMonitoring.PatientInput   as pi
+import HomeAccess.DoorManager as dm
+import HomeAccess.WindowManager as wm
 
 app = Flask(__name__, template_folder="./view/")
 
@@ -38,13 +40,10 @@ def social():
 
 @app.route('/security', methods=["GET", "POST"])
 def security():
-    return render_template("security.html")
-
-
+    if(request.method == "GET"):
+        return render_template("security.html", dm=dm.get_door_status(), wm=wm.get_window_status())
+    if(request.method == "POST"):
+        return
     
-
-    
-
-
 if __name__ == "__main__":
     app.run(debug=True)

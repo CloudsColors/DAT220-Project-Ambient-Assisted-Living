@@ -1,2 +1,2 @@
-maindoor,backdoor,bedroom,livingroom,kitchen
-0,1,0,1,0
+Main-door,Back-door,Bedroom-window,Livingroom-window,Kitchen-window,Smoke-sensor
+1,1,0,1,0,0
