@@ -1,7 +1,7 @@
 import paho.mqtt.client as mqttclient
 import DataStorage.QueryHandler as qh
 
-import os
+import os, platform
 
 '''
 Module for mimicing how the "database" stores the sensor information that is sent over MQTT.
@@ -10,10 +10,15 @@ def on_connect(client, userdata, flags, rc):
     client.subscribe([("home/puc/heartbeat", 0),("home/puc/stepcounter", 0)])
 
 def on_message(client, userdata, msg):
+    path = ""
+    if(platform.system() == "Windows"):
+        path = os.path.dirname(__file__)+"/DataStorage/data/stepcounter.txt"
+    else:
+        path = os.path.dirname(__file__)+"DataStorage/data/stepcounter.txt"
     if(msg.topic == "home/puc/heartbeat"):
-        qh.insert_heartbeat(os.path.dirname(__file__)+"DataStorage/data/heartbeat.txt", msg.payload.decode())
+        qh.insert_heartbeat("./DataStorage/data/heartbeat.txt", msg.payload.decode())
     elif(msg.topic == "home/puc/stepcounter"):
-        qh.insert_steps(os.path.dirname(__file__)+"DataStorage/data/stepcounter.txt", msg.payload.decode())
+        qh.insert_steps("./DataStorage/data/stepcounter.txt", msg.payload.decode())
 
 def main():
     client = mqttclient.Client("Collector")

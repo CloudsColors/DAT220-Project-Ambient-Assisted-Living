@@ -26,7 +26,7 @@ def writeToCsv(x,y, payload):
     r = csv.reader(open(os.path.dirname(__file__)+"/../DataStorage/data/doorwindowdata.csv"))
     lines = list(r)
     lines[x][y] = payload
-    writer = csv.writer(open(os.path.dirname(__file__)+"/../DataStorage/data/doorwindowdata.csv", 'w'))
+    writer = csv.writer(open(os.path.dirname(__file__)+"/../DataStorage/data/doorwindowdata.csv", 'w', newline=""))
     writer.writerows(lines)
 
 def main():

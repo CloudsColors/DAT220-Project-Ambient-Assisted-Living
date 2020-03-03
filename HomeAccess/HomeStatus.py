@@ -10,5 +10,10 @@ def get_windows():
     windowData = list(f)
     return [[windowData[0][2], windowData[1][2]], [windowData[0][3], windowData[1][3]], [windowData[0][4], windowData[1][4]]]
 
+def get_smoke():
+    f = csv.reader(open(os.path.dirname(__file__)+"/../DataStorage/data/doorwindowdata.csv", "r"))
+    smokeData = list(f)
+    return [[smokeData[0][5], smokeData[1][5]]]
+
 if __name__ == "__main__":
     print(get_windows())
