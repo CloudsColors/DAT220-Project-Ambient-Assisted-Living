@@ -12,13 +12,16 @@
                 <div class="col-sm-2">
                     <a href="/">Dashboard</a> <br>
                     <a href="/medical">Medical</a> <br>
-                    <a href="">Social</a> <br>
+                    <a href="/social">Social</a> <br>
                     <a href="/security">Security</a>
                 </div>
                 <div class="col-sm-10">
-                    <p> Welcome to your dashboard, {{name}}! </p>
-                    <p> This system is here to help you keep track of your everyday living life and make it easier for you. </p>
-                    <p> Feel free to explore everything.</p> 
+                    {% for x in dm %}
+                        <p> {{x[0]}} is <b>{{x[1]}}</b></p>
+                    {% endfor %}
+                    {% for x in wm %}
+                        <p> {{x[0]}} is <b>{{x[1]}}</b></p>
+                    {% endfor %}
                 </div>
             </div>
         </div>
