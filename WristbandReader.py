@@ -1,24 +1,26 @@
 import paho.mqtt.client as mqttclient
+import DataStorage.QueryHandler as qh
 
-import time, random
+import os
 
 '''
-This module mimics the sensor for a fitbit in a very barebones manner and publishes the data to another module with MQTT
+Module for mimicing how the "database" stores the sensor information that is sent over MQTT.
 '''
-def start_sensor_fitbit():
-    steps = 0
-    client = mqttclient.Client("WristbandReader")
+def on_connect(client, userdata, flags, rc):
+    client.subscribe([("home/puc/heartbeat", 0),("home/puc/stepcounter", 0)])
+
+def on_message(client, userdata, msg):
+    if(msg.topic == "home/puc/heartbeat"):
+        qh.insert_heartbeat(os.path.dirname(__file__)+"DataStorage/data/heartbeat.txt", msg.payload.decode())
+    elif(msg.topic == "home/puc/stepcounter"):
+        qh.insert_steps(os.path.dirname(__file__)+"DataStorage/data/stepcounter.txt", msg.payload.decode())
+
+def main():
+    client = mqttclient.Client("Collector")
+    client.on_connect = on_connect
+    client.on_message = on_message
     client.connect("localhost")
-    while(True):
-        # General data variation
-        heartbeat = 70
-        steps += random.randint(0,1)
-        heartbeat += random.randint(-1, 1)
-        # Networking with MQTT (publish)
-        client.publish("home/puc/stepcounter", f"{steps}")
-        client.publish("home/puc/heartbeat", f"{heartbeat}")
-        # Sleep one second for data-sanity
-        time.sleep(1)
+    client.loop_forever()
 
 if __name__ == "__main__":
-    start_sensor_fitbit()
+    main()
