@@ -1,0 +1,2 @@
+condition, action
+smoke detected,alert all

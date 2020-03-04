@@ -8,15 +8,17 @@
     </head>
     <body>
       <div class="container">
-        <div class="jumbotron" style="background-color: #05389A;">
+        <div class="jumbotron" id ="{{header}}" style="background-color: #05389A;">
             <h3 style="color: white"> Medical </h3>
+            <p id="cp-holder">{{cp}}</p>
         </div>
         <div class="row">
           <div class="col-sm-2">
-              <a href="/">Dashboard</a> <br>
-              <a href="/medical">Medical</a> <br>
-              <a href="/social">Social</a> <br>
-              <a href="/security">Security</a>
+            <a href="/">Dashboard</a> <br>
+            <a href="/medical">Medical</a> <br>
+            <a href="/social">Social</a> <br>
+            <a href="/security">Security</a> <br>
+            <a href="/composite">Composite</a>
           </div>
           <div class="col-sm-10">
             Heartbeat per second: <span id="heartbeat">{{hb}}</span> <br>
@@ -76,7 +78,9 @@
     </body>
 </html>
 
-<script>
+<script>  
+
+
   var interval = setInterval(function(){
     $.ajax({      
       type:"POST",
