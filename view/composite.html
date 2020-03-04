@@ -8,8 +8,10 @@
     </head>
     <body>
         <div class="container">
-            <div class="jumbotron" style="background-color: #05389A;">
-                <h3 style="color:white"> Ambient assisted living: Elderly care at home </h3>
+            <div class="jumbotron" id="header" style="background-color: #05389A;">
+                <h3 style="color:white"> Composite </h3>
+                <p id="cp-holder" hidden>{{cp[0][1]}}</p>
+                <p id="cp-shower" style="color: white"></p>
             </div>
             <div class="row">
                 <div class="col-sm-2">
@@ -37,7 +39,8 @@
                         <option value="other">Other</option>
                     </select>
                     <br><br>
-                    <button onclick="addComposite();" class="btn btn-success">Submit</button>
+                        <button onclick="addComposite();" class="btn btn-success">Submit</button> 
+                        <button onclick="reset();" class="btn btn-danger">Reset</button>
                 </div>
             </div>
         </div>
@@ -46,17 +49,52 @@
 
 <script>
     function addComposite() {
-        console.log("sup")
         $.ajax({      
         type:"POST",
-        dataType: "json",
+        contentType: "application/json",
         data:'{ \"addComposite\" : \"true\"}',
         url: "http://127.0.0.1:5000/composite",
         success: function(data) {
-            print("wheeew")
+            console.log(data.something);
+            $("cp-holder").text(data.something);
+            location.reload();
         }, error: function(request, error){
             console.log(request+" something went wrong");
         }
         });
     }
+
+    function reset() {
+        $.ajax({      
+        type:"POST",
+        contentType: "application/json",
+        data:'{ \"addComposite\" : \"false\"}',
+        url: "http://127.0.0.1:5000/composite",
+        success: function(data) {
+            console.log(data.something);
+            $("cp-holder").text(data.something);
+            location.reload();
+        }, error: function(request, error){
+            console.log(request+" something went wrong");
+        }
+        });
+    }
+
+    var doAlarm = setInterval(function (){
+      var hdrContainer = document.getElementById("header");
+      var holder = document.getElementById("cp-holder");
+      var shower = document.getElementById("cp-shower");
+      if (holder.innerText == "alert all") {
+        shower.hidden = false;
+        shower.innerText = "Smoke detected. Sending out alarms!"
+        if (hdrContainer.style.backgroundColor == "rgb(5, 56, 154)") {
+          hdrContainer.style = "background-color: #cc0000";
+        } else { 
+          hdrContainer.style = "background-color: #05389A";     
+        }
+      } else {
+        shower.hidden = true;
+        hdrContainer.style = "background-color: #05389A";
+      }
+    }, 500);
 </script>
