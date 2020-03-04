@@ -73,11 +73,7 @@
             <div class="jumbotron" style="background-color: #05389A;">
                 <h3 style="color:white"> Ambient assisted living: Elderly care at home </h3>
             </div>
-            <form action="action_page.php" method="post">
-                <div class="imgcontainer">
-                  <img src="file:///C:/Users/User/ASAProject/Images/login-icon.png" alt="Avatar" class="avatar">
-                </div>
-              
+            <form action="http://127.0.0.1:5000/login/submit" method="POST">
                 <div class="container">
                   <label for="uname"><b>Username</b></label>
                   <input type="text" placeholder="Enter Username" name="uname" required>
@@ -85,7 +81,7 @@
                   <label for="psw"><b>Password</b></label>
                   <input type="password" placeholder="Enter Password" name="psw" required>
               
-                  <button type="submit" onclick = "login();">Login</button>
+                  <button type="submit">Login</button>
                   <label>
                     <input type="checkbox" checked="checked" name="remember"> Remember me
                   </label>
@@ -103,8 +99,3 @@
     </body>
 </html>
 
-<script>
-    function login(){
-        url
-    }
-</script>
