@@ -28,7 +28,7 @@ def login_submit():
 
 @app.route('/index')
 def hello_world():
-    return render_template("index.html", name="Andreas")
+    return render_template("index.html", name="Andreas", cp = comp.get_alarm_detection())
 
 @app.route('/medical', methods=["GET", "POST"])
 def medical():
@@ -77,16 +77,18 @@ def security():
 @app.route('/composite', methods=["GET", "POST"])
 def composite():
     if (request.method == "POST"):
-        print(request.json)
-        r = csv.reader(open(os.path.dirname(__file__)+"/DataStorage/data/compositedata.csv"))
-        lines = list(r)
-        lines[1][0] = 'smoke detected'
-        lines[1][1] = 'alert all'
-        writer = csv.writer(open(os.path.dirname(__file__)+"/DataStorage/data/compositedata.csv", 'w', newline=""))
-        writer.writerows(lines)
-        return "hello"
+        haveComposite = request.json['addComposite'] == "true"
+        print(haveComposite)
+        if (haveComposite):
+            comp.detect_smoke()
+        else :
+            comp.reset()
+
+        return {"something": "0"}
+
     if (request.method == "GET"):
         return render_template("composite.html", cp=comp.get_alarm_detection())
+
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -21,8 +21,10 @@
 
 <body>
     <div class="container">
-        <div class="jumbotron" style="background-color: #05389A;">
+        <div class="jumbotron" id="header" style="background-color: #05389A;">
             <h3 style="color: white"> Social </h3>
+            <p id="cp-holder" hidden >{{cp[0][1]}}</p>
+            <p id="cp-shower" style="color: white"></p>
         </div>
         <div class="row">
             <div class="col-sm-2">
@@ -171,5 +173,23 @@
     function sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
+
+    var doAlarm = setInterval(function (){
+      var hdrContainer = document.getElementById("header");
+      var holder = document.getElementById("cp-holder");
+      var shower = document.getElementById("cp-shower");
+      if (holder.innerText == "alert all") {
+        shower.hidden = false;
+        shower.innerText = "Smoke detected. Sending out alarms!"
+        if (hdrContainer.style.backgroundColor == "rgb(5, 56, 154)") {
+          hdrContainer.style = "background-color: #cc0000";
+        } else { 
+          hdrContainer.style = "background-color: #05389A";     
+        }
+      } else {
+        shower.hidden = true;
+        hdrContainer.style = "background-color: #05389A";
+      }
+    }, 500);
 
 </script>
