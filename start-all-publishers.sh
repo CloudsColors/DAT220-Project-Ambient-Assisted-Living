@@ -10,6 +10,7 @@ do
     mosquitto_pub -h localhost -t home/window/bedroom -m $(($RANDOM%2))
     mosquitto_pub -h localhost -t home/window/livingroom -m $(($RANDOM%2))
     mosquitto_pub -h localhost -t home/window/kitchen -m $(($RANDOM%2))
+    mosquitto_pub -h localhost -t home/puc/movement -m $(($RANDOM%4))
     if [ $(($RANDOM % 100)) -gt 80 ]
     then
         mosquitto_pub -h localhost -t home/sensors/smoke -m 1

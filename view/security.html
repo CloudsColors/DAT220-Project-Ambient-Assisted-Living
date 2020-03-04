@@ -28,6 +28,7 @@
                     {% for x in acsa %}
                         <p> {{x[0]}} is <b id="{{x[0]}}">{{x[1]}}</b></p>
                     {% endfor %}
+                    <p> {{acmf[0][0]}} last detected movement in <b id="{{acmf[0][0]}}">{{acmf[1][0]}} </b> </p>
                 </div>
             </div>
         </div>
@@ -48,6 +49,7 @@
             $("#Livingroomwindow").text(data.Livingroomwindow);
             $("#Kitchenwindow").text(data.Kitchenwindow);
             $("#Smokesensor").text(data.Smokesensor);
+            $("#Movementsensor").text(data.Movementsensor);
         }, error: function(request, error){
           console.log(request+" something went wrong");
         }

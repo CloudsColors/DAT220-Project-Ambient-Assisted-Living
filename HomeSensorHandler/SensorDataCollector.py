@@ -6,7 +6,7 @@ import os, csv
 Module for collecting sensor data sent over MQTT
 '''
 def on_connect(client, userdata, flags, rc):
-    client.subscribe([("home/door/maindoor",0), ("home/door/backdoor", 0), ("home/window/bedroom", 0), ("home/window/livingroom", 0), ("home/window/kitchen", 0), ("home/sensors/smoke", 0)])
+    client.subscribe([("home/door/maindoor",0), ("home/door/backdoor", 0), ("home/window/bedroom", 0), ("home/window/livingroom", 0), ("home/window/kitchen", 0), ("home/sensors/smoke", 0), ("home/puc/movement", 0)])
 
 def on_message(client, userdata, msg):
     if(msg.topic == "home/door/maindoor"):
@@ -21,6 +21,8 @@ def on_message(client, userdata, msg):
         writeToCsv(1,4, msg.payload.decode())
     if(msg.topic == "home/sensors/smoke"):
         writeToCsv(1,5, msg.payload.decode())
+    if(msg.topic == "home/puc/movement"):
+        writeToCsv(1,6, msg.payload.decode())
 
 def writeToCsv(x,y, payload):
     r = csv.reader(open(os.path.dirname(__file__)+"/../DataStorage/data/doorwindowdata.csv"))

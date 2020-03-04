@@ -7,6 +7,7 @@ import HealthMonitoring.PatientInput   as pi
 import HomeAccess.DoorManager as dm
 import HomeAccess.WindowManager as wm
 import AlarmController.SmokeAlarm as acsa
+import AlarmController.MovementFilter as acmf
 
 app = Flask(__name__, template_folder="./view/")
 
@@ -42,18 +43,21 @@ def social():
 @app.route('/security', methods=["GET", "POST"])
 def security():
     if(request.method == "GET"):
-        return render_template("security.html", dm=dm.get_door_status(), wm=wm.get_window_status(), acsa=acsa.get_smoke_status())
+        return render_template("security.html", dm=dm.get_door_status(), wm=wm.get_window_status(), acsa=acsa.get_smoke_status(), acmf=acmf.get_movement_status())
     if(request.method == "POST"):
         entityDict = {}
         doorData = dm.get_door_status()
         windowData = wm.get_window_status()
         smokeData = acsa.get_smoke_status()
+        movementData  = acmf.get_movement_status()
         for x in doorData:
             entityDict[x[0]] = x[1]
         for y in windowData:
             entityDict[y[0]] = y[1]
         for z in smokeData:
             entityDict[z[0]] = z[1]
+        entityDict[movementData[0][0]] = movementData[1][0]
         return entityDict
+
 if __name__ == "__main__":
     app.run(debug=True)
