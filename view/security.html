@@ -19,7 +19,7 @@
                     <a href="/security">Security</a>
                 </div>
                 <div class="col-sm-10">
-                    {% for x in dm %}
+                  <!--  {% for x in dm %}
                         <p> {{x[0]}} is <b id="{{x[0]}}">{{x[1]}}</b></p>
                     {% endfor %}
                     {% for x in wm %}
@@ -27,7 +27,55 @@
                     {% endfor %}
                     {% for x in acsa %}
                         <p> {{x[0]}} is <b id="{{x[0]}}">{{x[1]}}</b></p>
-                    {% endfor %}
+                    {% endfor %}-->
+                    <table class="table">
+                        <thead class="thead-light">
+                          <tr>
+                            <th>Doors</th>
+                            <th>Status</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for x in dm %}
+                          <tr>
+                            <td>{{x[0]}}</td>
+                            <b><td id="{{x[0]}}">{{x[1]}}</td></b>
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                     <!-- </table>
+                      <table class="table">-->
+                        <thead class="thead-light">
+                          <tr>
+                            <th>Windows</th>
+                            <th>Status</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for x in wm %}
+                          <tr>
+                            <td>{{x[0]}}</td>
+                            <td id="{{x[0]}}">{{x[1]}}</td>
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                     <!-- </table>
+                      <table class="table"> -->
+                        <thead class="thead-light">
+                          <tr>
+                            <th>Alarm</th>
+                            <th>Status</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for x in dm %}
+                          <tr>
+                            <td>{{x[0]}}</td>
+                            <td id="{{x[0]}}">{{x[1]}}</td>
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
                 </div>
             </div>
         </div>
