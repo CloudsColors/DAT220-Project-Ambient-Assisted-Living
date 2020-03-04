@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, jsonify
 
 import datetime
 
@@ -8,12 +8,28 @@ import HomeAccess.DoorManager as dm
 import HomeAccess.WindowManager as wm
 import AlarmController.SmokeAlarm as acsa
 import AlarmController.MovementFilter as acmf
+import CompositeLogic.CompositeLogicController as comp
+import csv, os
 
 app = Flask(__name__, template_folder="./view/")
 
+
 @app.route('/')
+def login():
+    return render_template("login.html")
+
+@app.route('/login/submit', methods=["POST"])
+def login_submit():
+    if(request.method == "POST"):
+        if(request.form['uname'] == "Andreas"):
+            return redirect("http://127.0.0.1:5000/index", code=301)
+        else:
+            return redirect("http://127.0.0.1:5000/", code=301)
+
+
+@app.route('/index')
 def hello_world():
-    return render_template("index.html", name="Andreas")
+    return render_template("index.html", name="Andreas", cp = comp.get_alarm_detection())
 
 @app.route('/medical', methods=["GET", "POST"])
 def medical():
@@ -22,7 +38,8 @@ def medical():
     if(request.method == "GET"):
         bp = oss.bloodpressure_data() # These are lists
         gc = oss.glucose_data() # These are lists
-        return render_template("medical.html", bp = bp, gc = gc, hb = hb, sc = sc)
+        cp = comp.get_alarm_detection() # These are lists
+        return render_template("medical.html", bp = bp, gc = gc, hb = hb, sc = sc, cp=cp)
     if(request.method == "POST"):
         return {"heartbeat": hb, "stepcounter": sc}
 
@@ -38,12 +55,13 @@ def submitForm():
 
 @app.route('/social', methods=["GET"])
 def social():
-    return render_template("social.html")
+    cp=comp.get_alarm_detection()
+    return render_template("social.html", cp = cp)
 
 @app.route('/security', methods=["GET", "POST"])
 def security():
     if(request.method == "GET"):
-        return render_template("security.html", dm=dm.get_door_status(), wm=wm.get_window_status(), acsa=acsa.get_smoke_status(), acmf=acmf.get_movement_status())
+        return render_template("security.html", dm=dm.get_door_status(), wm=wm.get_window_status(), acsa=acsa.get_smoke_status(), acmf=acmf.get_movement_status(), cp=comp.get_alarm_detection())
     if(request.method == "POST"):
         entityDict = {}
         doorData = dm.get_door_status()
@@ -58,6 +76,21 @@ def security():
             entityDict[z[0]] = z[1]
         entityDict[movementData[0][0]] = movementData[1][0]
         return entityDict
+
+@app.route('/composite', methods=["GET", "POST"])
+def composite():
+    if (request.method == "POST"):
+        haveComposite = request.json['addComposite'] == "true"
+        print(haveComposite)
+        if (haveComposite):
+            comp.detect_smoke()
+        else :
+            comp.reset()
+
+        return {"something": "0"}
+
+    if (request.method == "GET"):
+        return render_template("composite.html", cp=comp.get_alarm_detection())
 
 if __name__ == "__main__":
     app.run(debug=True)

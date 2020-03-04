@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+    <head>
+        <title> Ambient assisted living </title> 
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    </head>
+    <body>
+        <div class="container">
+            <div class="jumbotron" id="header" style="background-color: #05389A;">
+                <h3 style="color:white"> Composite </h3>
+                <p id="cp-holder" hidden>{{cp[0][1]}}</p>
+                <p id="cp-shower" style="color: white"></p>
+            </div>
+            <div class="row">
+                <div class="col-sm-2">
+                    <a href="/">Dashboard</a> <br>
+                    <a href="/medical">Medical</a> <br>
+                    <a href="/social">Social</a> <br>
+                    <a href="/security">Security</a> <br>
+                    <a href="/composite">Composite</a>
+                </div>
+                <div class="col-sm-10">
+                    
+                    <p>This page lets your add composite logic for your house.</p>
+                    <hr>
+                    <h3>Add logic:</h3>
+                    <font size='4' face='Courier New'>If</font>
+                    <select id="conditions">
+                        <option value="entry"> </option>
+                        <option value="smoke">Smoke detected</option>
+                        <option value="other">Other</option>
+                    </select>
+                    <font size='4' face='Courier New'>then</font>
+                    <select id="actions">
+                        <option value="entry"> </option>
+                        <option value="alert">Alert all</option>
+                        <option value="other">Other</option>
+                    </select>
+                    <br><br>
+                        <button onclick="addComposite();" class="btn btn-success">Submit</button> 
+                        <button onclick="reset();" class="btn btn-danger">Reset</button>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
+
+<script>
+    function addComposite() {
+        $.ajax({      
+        type:"POST",
+        contentType: "application/json",
+        data:'{ \"addComposite\" : \"true\"}',
+        url: "http://127.0.0.1:5000/composite",
+        success: function(data) {
+            console.log(data.something);
+            $("cp-holder").text(data.something);
+            location.reload();
+        }, error: function(request, error){
+            console.log(request+" something went wrong");
+        }
+        });
+    }
+
+    function reset() {
+        $.ajax({      
+        type:"POST",
+        contentType: "application/json",
+        data:'{ \"addComposite\" : \"false\"}',
+        url: "http://127.0.0.1:5000/composite",
+        success: function(data) {
+            console.log(data.something);
+            $("cp-holder").text(data.something);
+            location.reload();
+        }, error: function(request, error){
+            console.log(request+" something went wrong");
+        }
+        });
+    }
+
+    var doAlarm = setInterval(function (){
+      var hdrContainer = document.getElementById("header");
+      var holder = document.getElementById("cp-holder");
+      var shower = document.getElementById("cp-shower");
+      if (holder.innerText == "alert all") {
+        shower.hidden = false;
+        shower.innerText = "Smoke detected. Sending out alarms!"
+        if (hdrContainer.style.backgroundColor == "rgb(5, 56, 154)") {
+          hdrContainer.style = "background-color: #cc0000";
+        } else { 
+          hdrContainer.style = "background-color: #05389A";     
+        }
+      } else {
+        shower.hidden = true;
+        hdrContainer.style = "background-color: #05389A";
+      }
+    }, 500);
+</script>
