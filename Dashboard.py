@@ -16,13 +16,13 @@ def hello_world():
 
 @app.route('/medical', methods=["GET", "POST"])
 def medical():
+    hb = oss.heartbeat_data()
+    sc = oss.stepcounter_data()
     if(request.method == "GET"):
         bp = oss.bloodpressure_data() # These are lists
         gc = oss.glucose_data() # These are lists
-        return render_template("medical.html", bp = bp, gc = gc)
+        return render_template("medical.html", bp = bp, gc = gc, hb = hb, sc = sc)
     if(request.method == "POST"):
-        hb = oss.heartbeat_data()
-        sc = oss.stepcounter_data()
         return {"heartbeat": hb, "stepcounter": sc}
 
 @app.route('/medical/submit', methods=["POST"])
