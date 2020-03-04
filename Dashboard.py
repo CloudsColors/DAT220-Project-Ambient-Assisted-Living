@@ -6,6 +6,7 @@ import HealthMonitoring.OverviewSystem as oss
 import HealthMonitoring.PatientInput   as pi
 import HomeAccess.DoorManager as dm
 import HomeAccess.WindowManager as wm
+import AlarmController.SmokeAlarm as acsa
 
 app = Flask(__name__, template_folder="./view/")
 
@@ -15,13 +16,13 @@ def hello_world():
 
 @app.route('/medical', methods=["GET", "POST"])
 def medical():
+    hb = oss.heartbeat_data()
+    sc = oss.stepcounter_data()
     if(request.method == "GET"):
         bp = oss.bloodpressure_data() # These are lists
         gc = oss.glucose_data() # These are lists
-        return render_template("medical.html", bp = bp, gc = gc)
+        return render_template("medical.html", bp = bp, gc = gc, hb = hb, sc = sc)
     if(request.method == "POST"):
-        hb = oss.heartbeat_data()
-        sc = oss.stepcounter_data()
         return {"heartbeat": hb, "stepcounter": sc}
 
 @app.route('/medical/submit', methods=["POST"])
@@ -41,9 +42,18 @@ def social():
 @app.route('/security', methods=["GET", "POST"])
 def security():
     if(request.method == "GET"):
-        return render_template("security.html", dm=dm.get_door_status(), wm=wm.get_window_status())
+        return render_template("security.html", dm=dm.get_door_status(), wm=wm.get_window_status(), acsa=acsa.get_smoke_status())
     if(request.method == "POST"):
-        return
-    
+        entityDict = {}
+        doorData = dm.get_door_status()
+        windowData = wm.get_window_status()
+        smokeData = acsa.get_smoke_status()
+        for x in doorData:
+            entityDict[x[0]] = x[1]
+        for y in windowData:
+            entityDict[y[0]] = y[1]
+        for z in smokeData:
+            entityDict[z[0]] = z[1]
+        return entityDict
 if __name__ == "__main__":
     app.run(debug=True)

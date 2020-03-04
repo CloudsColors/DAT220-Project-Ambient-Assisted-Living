@@ -2,6 +2,9 @@
     <head>
         <title> Ambient assisted living </title> 
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     </head>
     <body>
         <div class="container">
@@ -17,13 +20,37 @@
                 </div>
                 <div class="col-sm-10">
                     {% for x in dm %}
-                        <p> {{x[0]}} is <b>{{x[1]}}</b></p>
+                        <p> {{x[0]}} is <b id="{{x[0]}}">{{x[1]}}</b></p>
                     {% endfor %}
                     {% for x in wm %}
-                        <p> {{x[0]}} is <b>{{x[1]}}</b></p>
+                        <p> {{x[0]}} is <b id="{{x[0]}}">{{x[1]}}</b></p>
+                    {% endfor %}
+                    {% for x in acsa %}
+                        <p> {{x[0]}} is <b id="{{x[0]}}">{{x[1]}}</b></p>
                     {% endfor %}
                 </div>
             </div>
         </div>
     </body>
 </html>
+
+<script>
+    var interval = setInterval(function(){
+      $.ajax({      
+        type:"POST",
+        dataType: "json",
+        data:'data',
+        url: "http://127.0.0.1:5000/security",
+        success: function(data){
+            $("#Maindoor").text(data.Maindoor);
+            $("#Backdoor").text(data.Backdoor);
+            $("#Bedroomwindow").text(data.Bedroomwindow);
+            $("#Livingroomwindow").text(data.Livingroomwindow);
+            $("#Kitchenwindow").text(data.Kitchenwindow);
+            $("#Smokesensor").text(data.Smokesensor);
+        }, error: function(request, error){
+          console.log(request+" something went wrong");
+        }
+      });
+    }, 1000);
+  </script>
