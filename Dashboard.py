@@ -12,7 +12,21 @@ import csv, os
 
 app = Flask(__name__, template_folder="./view/")
 
+
 @app.route('/')
+def login():
+    return render_template("login.html")
+
+@app.route('/login/submit', methods=["POST"])
+def login_submit():
+    if(request.method == "POST"):
+        if(request.form['uname'] == "Andreas"):
+            return redirect("http://127.0.0.1:5000/index", code=301)
+        else:
+            return redirect("http://127.0.0.1:5000/", code=301)
+
+
+@app.route('/index')
 def hello_world():
     return render_template("index.html", name="Andreas")
 
